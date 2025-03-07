@@ -1,8 +1,11 @@
 import '@walletconnect/react-native-compat';
+
+// Add BackHandler polyfill
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+
 import {WagmiProvider} from 'wagmi';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {AppKit, AppKitButton} from '@reown/appkit-wagmi-react-native';
-import {StyleSheet, Text, View} from 'react-native';
 import {wagmiConfig} from './src/config/wagmi';
 import {Account} from './src/componenets/Account';
 import {FitnessRewards} from './src/componenets/FitnessRewards';
@@ -13,10 +16,12 @@ export default function App() {
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <View style={styles.container}>
-          <Text>Hello World</Text>
-          <AppKitButton />
-          <Account />
-          <FitnessRewards />
+          <ScrollView contentContainerStyle={styles.scrollContent}>
+            <Text style={styles.header}>FitChain</Text>
+            <AppKitButton />
+            <Account />
+            <FitnessRewards />
+          </ScrollView>
         </View>
         <AppKit />
       </QueryClientProvider>
@@ -27,8 +32,16 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#f5f5f5',
   },
+  scrollContent: {
+    paddingBottom: 30,
+  },
+  header: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginVertical: 20,
+    color: '#333',
+  }
 });

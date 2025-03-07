@@ -25,21 +25,89 @@ import type {
 
 export interface FitChainRewardsInterface extends Interface {
   getFunction(
-    nameOrSignature: "etnToken" | "owner" | "rewardUser"
+    nameOrSignature:
+      | "claimRewards"
+      | "claimedSteps"
+      | "etnToken"
+      | "fundContract"
+      | "getContractBalance"
+      | "getPotentialReward"
+      | "getUnclaimedSteps"
+      | "owner"
+      | "recordSteps"
+      | "userSteps"
   ): FunctionFragment;
 
-  getEvent(nameOrSignatureOrTopic: "RewardClaimed"): EventFragment;
+  getEvent(
+    nameOrSignatureOrTopic: "RewardClaimed" | "StepsRecorded"
+  ): EventFragment;
 
+  encodeFunctionData(
+    functionFragment: "claimRewards",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "claimedSteps",
+    values: [AddressLike]
+  ): string;
   encodeFunctionData(functionFragment: "etnToken", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "fundContract",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getContractBalance",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getPotentialReward",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getUnclaimedSteps",
+    values: [AddressLike]
+  ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "rewardUser",
+    functionFragment: "recordSteps",
     values: [AddressLike, BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "userSteps",
+    values: [AddressLike]
+  ): string;
 
+  decodeFunctionResult(
+    functionFragment: "claimRewards",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "claimedSteps",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "etnToken", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "fundContract",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getContractBalance",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getPotentialReward",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getUnclaimedSteps",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "rewardUser", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "recordSteps",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "userSteps", data: BytesLike): Result;
 }
 
 export namespace RewardClaimedEvent {
@@ -48,6 +116,19 @@ export namespace RewardClaimedEvent {
   export interface OutputObject {
     user: string;
     amount: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace StepsRecordedEvent {
+  export type InputTuple = [user: AddressLike, steps: BigNumberish];
+  export type OutputTuple = [user: string, steps: bigint];
+  export interface OutputObject {
+    user: string;
+    steps: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -98,33 +179,76 @@ export interface FitChainRewards extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
+  claimRewards: TypedContractMethod<[], [void], "nonpayable">;
+
+  claimedSteps: TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
+
   etnToken: TypedContractMethod<[], [string], "view">;
+
+  fundContract: TypedContractMethod<
+    [amount: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
+
+  getContractBalance: TypedContractMethod<[], [bigint], "view">;
+
+  getPotentialReward: TypedContractMethod<
+    [user: AddressLike],
+    [bigint],
+    "view"
+  >;
+
+  getUnclaimedSteps: TypedContractMethod<[user: AddressLike], [bigint], "view">;
 
   owner: TypedContractMethod<[], [string], "view">;
 
-  rewardUser: TypedContractMethod<
+  recordSteps: TypedContractMethod<
     [user: AddressLike, steps: BigNumberish],
     [void],
     "nonpayable"
   >;
+
+  userSteps: TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
 
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
   ): T;
 
   getFunction(
+    nameOrSignature: "claimRewards"
+  ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "claimedSteps"
+  ): TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
+  getFunction(
     nameOrSignature: "etnToken"
   ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "fundContract"
+  ): TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "getContractBalance"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "getPotentialReward"
+  ): TypedContractMethod<[user: AddressLike], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "getUnclaimedSteps"
+  ): TypedContractMethod<[user: AddressLike], [bigint], "view">;
   getFunction(
     nameOrSignature: "owner"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
-    nameOrSignature: "rewardUser"
+    nameOrSignature: "recordSteps"
   ): TypedContractMethod<
     [user: AddressLike, steps: BigNumberish],
     [void],
     "nonpayable"
   >;
+  getFunction(
+    nameOrSignature: "userSteps"
+  ): TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
 
   getEvent(
     key: "RewardClaimed"
@@ -132,6 +256,13 @@ export interface FitChainRewards extends BaseContract {
     RewardClaimedEvent.InputTuple,
     RewardClaimedEvent.OutputTuple,
     RewardClaimedEvent.OutputObject
+  >;
+  getEvent(
+    key: "StepsRecorded"
+  ): TypedContractEvent<
+    StepsRecordedEvent.InputTuple,
+    StepsRecordedEvent.OutputTuple,
+    StepsRecordedEvent.OutputObject
   >;
 
   filters: {
@@ -144,6 +275,17 @@ export interface FitChainRewards extends BaseContract {
       RewardClaimedEvent.InputTuple,
       RewardClaimedEvent.OutputTuple,
       RewardClaimedEvent.OutputObject
+    >;
+
+    "StepsRecorded(address,uint256)": TypedContractEvent<
+      StepsRecordedEvent.InputTuple,
+      StepsRecordedEvent.OutputTuple,
+      StepsRecordedEvent.OutputObject
+    >;
+    StepsRecorded: TypedContractEvent<
+      StepsRecordedEvent.InputTuple,
+      StepsRecordedEvent.OutputTuple,
+      StepsRecordedEvent.OutputObject
     >;
   };
 }
