@@ -54,4 +54,5 @@ createAppKit({
   wagmiConfig,
   defaultChain: electroneumTestnet, // Optional
   enableAnalytics: true, // Optional - defaults to your Cloud configuration
+  themeMode: 'dark',
 });

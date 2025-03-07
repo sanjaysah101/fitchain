@@ -74,14 +74,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ETNMock__factory>;
     getContractFactory(
-      name: "FitChainRewards",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.FitChainRewards__factory>;
-    getContractFactory(
-      name: "IETN",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IETN__factory>;
-    getContractFactory(
       name: "FitChainNFT",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.FitChainNFT__factory>;
@@ -170,16 +162,6 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ETNMock>;
     getContractAt(
-      name: "FitChainRewards",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.FitChainRewards>;
-    getContractAt(
-      name: "IETN",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IETN>;
-    getContractAt(
       name: "FitChainNFT",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -255,14 +237,6 @@ declare module "hardhat/types/runtime" {
       name: "ETNMock",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ETNMock>;
-    deployContract(
-      name: "FitChainRewards",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.FitChainRewards>;
-    deployContract(
-      name: "IETN",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IETN>;
     deployContract(
       name: "FitChainNFT",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -351,16 +325,6 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ETNMock>;
-    deployContract(
-      name: "FitChainRewards",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.FitChainRewards>;
-    deployContract(
-      name: "IETN",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IETN>;
     deployContract(
       name: "FitChainNFT",
       args: any[],

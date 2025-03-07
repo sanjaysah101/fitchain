@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@nomicfoundation/hardhat-verify':
+        specifier: ^2.0.13
+        version: 2.0.13(hardhat@2.22.19(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(typescript@5.8.2))
       '@openzeppelin/contracts':
         specifier: ^5.2.0
         version: 5.2.0
