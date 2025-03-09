@@ -37,6 +37,53 @@ export const FitChainRewardsABI = [
     type: 'function',
   },
   {
+    inputs: [],
+    name: 'displayName',
+    outputs: [
+      {
+        internalType: 'string',
+        name: '',
+        type: 'string',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'user',
+        type: 'address',
+      },
+    ],
+    name: 'getUserStats',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: 'totalSteps',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'etnClaimed',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'nextMilestone',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'claimCooldown',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [
       {
         internalType: 'uint256',
@@ -95,6 +142,38 @@ export const FitChainRewardsABI = [
     type: 'function',
   },
   {
+    inputs: [],
+    name: 'totalETNDistributed',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    name: 'userETNClaimed',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [
       {
         internalType: 'address',
@@ -127,7 +206,7 @@ export const FitChainRewardsABI = [
     stateMutability: 'payable',
     type: 'receive',
   },
-];
+] as const;
 
 export const FitChainNFTABI = [
   {
@@ -345,6 +424,19 @@ export const FitChainNFTABI = [
         internalType: 'uint256',
         name: '',
         type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'displayName',
+    outputs: [
+      {
+        internalType: 'string',
+        name: '',
+        type: 'string',
       },
     ],
     stateMutability: 'view',
@@ -594,4 +686,4 @@ export const FitChainNFTABI = [
     stateMutability: 'nonpayable',
     type: 'function',
   },
-];
+] as const;

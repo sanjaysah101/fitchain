@@ -33,7 +33,7 @@ export default function ClaimButton() {
         address: REWARDS_CONTRACT,
         abi: FitChainRewardsABI,
         functionName: 'claimRewards',
-        args: [mockSteps],
+        args: [BigInt(mockSteps)],
       });
     } catch (err) {
       console.error('Failed to send transaction:', err);

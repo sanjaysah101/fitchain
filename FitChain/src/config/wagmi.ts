@@ -1,5 +1,5 @@
 import { createAppKit, defaultWagmiConfig } from '@reown/appkit-wagmi-react-native';
-// import {Chain} from 'viem';
+import { Chain } from 'viem';
 import { electroneumTestnet } from 'viem/chains';
 
 // 1. Get projectId at https://cloud.reown.com
@@ -18,30 +18,30 @@ const metadata = {
 };
 
 // TODO: Add electroneumChain
-// const electroneumChain: Chain = {
-//   id: 5201420, // Replace with Electroneum's actual chain ID
-//   name: 'Electroneum',
-//   nativeCurrency: {
-//     name: 'ETN',
-//     symbol: 'ETN',
-//     decimals: 18,
-//   },
-//   rpcUrls: {
-//     default: {
-//       http: [
-//         'https://rpc.ankr.com/electroneum_testnet/1c6169c4ee8bdb5aff458250248024f1a5852e00b6211210aa745864b6e94498',
-//       ],
-//     },
-//   },
-//   blockExplorers: {
-//     default: {
-//       name: 'ElectroneumScan',
-//       url: 'https://blockexplorer.electroneum.com',
-//     },
-//   },
-// };
+const electroneumChain: Chain = {
+  id: 5201420, // Replace with Electroneum's actual chain ID
+  name: 'Electroneum',
+  nativeCurrency: {
+    name: 'ETN',
+    symbol: 'ETN',
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: {
+      http: [
+        'https://rpc.ankr.com/electroneum_testnet/1c6169c4ee8bdb5aff458250248024f1a5852e00b6211210aa745864b6e94498',
+      ],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'ElectroneumScan',
+      url: 'https://blockexplorer.electroneum.com',
+    },
+  },
+};
 
-const chains = [electroneumTestnet] as const; // Remove other chains
+const chains = [electroneumChain] as const; // Remove other chains
 
 export const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata });
 
