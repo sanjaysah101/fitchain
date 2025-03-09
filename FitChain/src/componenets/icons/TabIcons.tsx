@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+
 import { LAYOUT } from '../../constants/theme';
 
 const { ICON_SIZE } = LAYOUT;
@@ -121,24 +122,24 @@ const styles = StyleSheet.create({
     height: 30,
     borderWidth: 2,
     borderRadius: 4,
-    alignItems: "center",
-    justifyContent: "flex-end",
+    alignItems: 'center',
+    justifyContent: 'flex-end',
   },
   roof: {
-    position: "absolute",
+    position: 'absolute',
     top: -15,
     width: 0,
     height: 0,
     borderLeftWidth: 15,
     borderRightWidth: 15,
     borderBottomWidth: 15,
-    borderStyle: "solid",
-    borderLeftColor: "transparent",
-    borderRightColor: "transparent",
+    borderStyle: 'solid',
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
   },
   door: {
     width: 10,
     height: 15,
     marginBottom: 2,
   },
-}); 
+});

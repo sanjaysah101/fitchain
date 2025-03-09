@@ -12,4 +12,4 @@ export const APP_CONFIG = {
     darkMode: false,
     units: 'metric',
   },
-}; 
+};

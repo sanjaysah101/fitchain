@@ -1,13 +1,6 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Switch,
-  TouchableOpacity,
-  Alert,
-  ScrollView,
-} from 'react-native';
+import { Alert, ScrollView, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
+
 import { checkStepCounterPermissions, requestStepCounterPermissions } from '../utils/PermissionsHandler';
 
 const Settings: React.FC = () => {
@@ -18,7 +11,7 @@ const Settings: React.FC = () => {
 
   const handlePermissionsCheck = async () => {
     const hasPermission = await checkStepCounterPermissions();
-    
+
     if (hasPermission) {
       Alert.alert('Permissions', 'Step counter permissions are granted.');
     } else {
@@ -27,8 +20,8 @@ const Settings: React.FC = () => {
         'Step counter permissions are not granted. Would you like to grant them now?',
         [
           { text: 'Cancel', style: 'cancel' },
-          { 
-            text: 'Grant Permissions', 
+          {
+            text: 'Grant Permissions',
             onPress: async () => {
               const granted = await requestStepCounterPermissions();
               if (granted) {
@@ -36,29 +29,25 @@ const Settings: React.FC = () => {
               } else {
                 Alert.alert('Error', 'Failed to grant permissions.');
               }
-            } 
-          }
+            },
+          },
         ]
       );
     }
   };
 
   const handleResetData = () => {
-    Alert.alert(
-      'Reset Data',
-      'Are you sure you want to reset all your step data? This action cannot be undone.',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { 
-          text: 'Reset', 
-          style: 'destructive',
-          onPress: () => {
-            // Reset data logic would go here
-            Alert.alert('Success', 'All data has been reset.');
-          } 
-        }
-      ]
-    );
+    Alert.alert('Reset Data', 'Are you sure you want to reset all your step data? This action cannot be undone.', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Reset',
+        style: 'destructive',
+        onPress: () => {
+          // Reset data logic would go here
+          Alert.alert('Success', 'All data has been reset.');
+        },
+      },
+    ]);
   };
 
   return (
@@ -70,7 +59,7 @@ const Settings: React.FC = () => {
       <ScrollView style={styles.settingsContainer}>
         <View style={styles.settingSection}>
           <Text style={styles.sectionTitle}>General</Text>
-          
+
           <View style={styles.settingItem}>
             <Text style={styles.settingLabel}>Dark Mode</Text>
             <Switch
@@ -80,7 +69,7 @@ const Settings: React.FC = () => {
               thumbColor={darkModeEnabled ? '#4CAF50' : '#f4f3f4'}
             />
           </View>
-          
+
           <View style={styles.settingItem}>
             <Text style={styles.settingLabel}>Use Metric Units</Text>
             <Switch
@@ -94,7 +83,7 @@ const Settings: React.FC = () => {
 
         <View style={styles.settingSection}>
           <Text style={styles.sectionTitle}>Tracking</Text>
-          
+
           <View style={styles.settingItem}>
             <Text style={styles.settingLabel}>Background Tracking</Text>
             <Switch
@@ -104,7 +93,7 @@ const Settings: React.FC = () => {
               thumbColor={backgroundTrackingEnabled ? '#4CAF50' : '#f4f3f4'}
             />
           </View>
-          
+
           <View style={styles.settingItem}>
             <Text style={styles.settingLabel}>Notifications</Text>
             <Switch
@@ -118,22 +107,16 @@ const Settings: React.FC = () => {
 
         <View style={styles.settingSection}>
           <Text style={styles.sectionTitle}>Permissions</Text>
-          
-          <TouchableOpacity 
-            style={styles.button} 
-            onPress={handlePermissionsCheck}
-          >
+
+          <TouchableOpacity style={styles.button} onPress={handlePermissionsCheck}>
             <Text style={styles.buttonText}>Check Permissions</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.settingSection}>
           <Text style={styles.sectionTitle}>Data</Text>
-          
-          <TouchableOpacity 
-            style={[styles.button, styles.dangerButton]} 
-            onPress={handleResetData}
-          >
+
+          <TouchableOpacity style={[styles.button, styles.dangerButton]} onPress={handleResetData}>
             <Text style={styles.buttonText}>Reset All Data</Text>
           </TouchableOpacity>
         </View>
@@ -226,4 +209,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Settings; 
+export default Settings;

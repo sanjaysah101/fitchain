@@ -1,23 +1,23 @@
 // Add BackHandler polyfill
+import { AppKit, AppKitButton } from '@reown/appkit-wagmi-react-native';
+import { QueryClient } from '@tanstack/react-query';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import {QueryClient, } from '@tanstack/react-query';
-import {AppKit, AppKitButton} from '@reown/appkit-wagmi-react-native';
 import { Account } from '../componenets/Account';
 
 const queryClient = new QueryClient();
 export const HomeScreen: React.FC = () => {
   return (
-        <View style={styles.container}>
-          <ScrollView contentContainerStyle={styles.scrollContent}>
-            <Text style={styles.header}>FitChain</Text>
-            <AppKitButton />
-            <Account />
-            {/* <FitnessRewards /> */}
-          </ScrollView>
-        </View>
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <Text style={styles.header}>FitChain</Text>
+        <AppKitButton />
+        <Account />
+        {/* <FitnessRewards /> */}
+      </ScrollView>
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -33,5 +33,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: 20,
     color: '#333',
-  }
+  },
 });

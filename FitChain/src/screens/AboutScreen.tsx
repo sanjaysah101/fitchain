@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Linking,
-} from 'react-native';
+import { Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const AboutScreen: React.FC = () => {
   return (
@@ -19,9 +12,8 @@ const AboutScreen: React.FC = () => {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>About the App</Text>
         <Text style={styles.description}>
-          FitChain is a step counter application designed to help you track your daily physical activity.
-          The app uses your device's built-in sensors to count steps, calculate distance traveled, and
-          estimate calories burned.
+          FitChain is a step counter application designed to help you track your daily physical activity. The app uses
+          your device's built-in sensors to count steps, calculate distance traveled, and estimate calories burned.
         </Text>
       </View>
 
@@ -52,9 +44,9 @@ const AboutScreen: React.FC = () => {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>How It Works</Text>
         <Text style={styles.description}>
-          FitChain uses your device's accelerometer to detect the characteristic motion patterns of walking.
-          When the app detects a step pattern, it increments your step count and calculates related metrics
-          like distance and calories.
+          FitChain uses your device's accelerometer to detect the characteristic motion patterns of walking. When the
+          app detects a step pattern, it increments your step count and calculates related metrics like distance and
+          calories.
         </Text>
         <Text style={[styles.description, { marginTop: 10 }]}>
           For the most accurate results, keep your phone in your pocket or bag while walking.
@@ -63,9 +55,7 @@ const AboutScreen: React.FC = () => {
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Permissions</Text>
-        <Text style={styles.description}>
-          FitChain requires the following permissions to function properly:
-        </Text>
+        <Text style={styles.description}>FitChain requires the following permissions to function properly:</Text>
         <View style={styles.featureItem}>
           <Text style={styles.featureBullet}>•</Text>
           <Text style={styles.featureText}>Activity Recognition - To count your steps</Text>
@@ -78,10 +68,7 @@ const AboutScreen: React.FC = () => {
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Contact Us</Text>
-        <TouchableOpacity 
-          style={styles.contactButton}
-          onPress={() => Linking.openURL('mailto:support@fitchain.com')}
-        >
+        <TouchableOpacity style={styles.contactButton} onPress={() => Linking.openURL('mailto:support@fitchain.com')}>
           <Text style={styles.contactButtonText}>Email Support</Text>
         </TouchableOpacity>
       </View>
@@ -180,4 +167,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AboutScreen; 
+export default AboutScreen;

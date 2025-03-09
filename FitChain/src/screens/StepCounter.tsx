@@ -1,26 +1,12 @@
 import React, { useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Alert,
-  Vibration,
-} from 'react-native';
-import { useStepCounter } from '../services/StepCounterService';
-import { FitnessRewards } from '../componenets/FitnessRewards';
+import { Alert, StyleSheet, Text, TouchableOpacity, Vibration, View } from 'react-native';
 
+import { FitnessRewards } from '../componenets/FitnessRewards';
+import { useStepCounter } from '../services/StepCounterService';
 
 const StepCounter: React.FC = () => {
-  const {
-    steps,
-    isTracking,
-    hasPermission,
-    startTracking,
-    stopTracking,
-    resetSteps,
-    requestPermissions,
-  } = useStepCounter();
+  const { steps, isTracking, hasPermission, startTracking, stopTracking, resetSteps, requestPermissions } =
+    useStepCounter();
 
   useEffect(() => {
     // Vibrate when reaching milestones (every 100 steps)
@@ -33,11 +19,9 @@ const StepCounter: React.FC = () => {
     if (!hasPermission) {
       const granted = await requestPermissions();
       if (!granted) {
-        Alert.alert(
-          'Permission Required',
-          'This app needs activity recognition permission to count steps.',
-          [{ text: 'OK' }]
-        );
+        Alert.alert('Permission Required', 'This app needs activity recognition permission to count steps.', [
+          { text: 'OK' },
+        ]);
         return;
       }
     }
@@ -55,10 +39,10 @@ const StepCounter: React.FC = () => {
 
   // Calculate calories burned (rough estimate)
   const caloriesBurned = Math.round(steps * 0.04);
-  
+
   // Calculate distance in kilometers (rough estimate based on average step length)
-  const distanceKm = (steps * 0.76 / 1000).toFixed(2);
-/*
+  const distanceKm = ((steps * 0.76) / 1000).toFixed(2);
+  /*
   return (
     <View style={styles.mainContainer}>
       <View style={styles.header}>
@@ -232,4 +216,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StepCounter; 
+export default StepCounter;

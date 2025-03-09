@@ -1,6 +1,7 @@
-import { Platform, Alert, PermissionsAndroid } from 'react-native';
-import { checkStepCounterPermissions, requestStepCounterPermissions } from '../utils/PermissionsHandler';
 import { useEffect, useState } from 'react';
+import { Alert, PermissionsAndroid, Platform } from 'react-native';
+
+import { checkStepCounterPermissions, requestStepCounterPermissions } from '../utils/PermissionsHandler';
 
 // Mock implementation for when react-native-sensors is not available
 const mockAccelerometer = {
@@ -11,17 +12,17 @@ const mockAccelerometer = {
       const x = Math.random() * 2 - 1;
       const y = Math.random() * 2 - 1;
       const z = Math.random() * 2 - 1;
-      
+
       callback({ x, y, z });
     }, 1000);
-    
+
     // Return a subscription object with unsubscribe method
     return {
       unsubscribe: () => {
         clearInterval(intervalId);
-      }
+      },
     };
-  }
+  },
 };
 
 // Try to import react-native-sensors, fall back to mock if not available
@@ -34,7 +35,7 @@ try {
   accelerometer = sensors.accelerometer;
   setUpdateIntervalForType = sensors.setUpdateIntervalForType;
   SensorTypes = sensors.SensorTypes;
-  
+
   // Set the update interval for the accelerometer (in milliseconds)
   setUpdateIntervalForType(SensorTypes.accelerometer, 100);
 } catch (error) {
@@ -60,16 +61,13 @@ export class StepCounterService {
   async requestPermissions(): Promise<boolean> {
     if (Platform.OS === 'android') {
       try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACTIVITY_RECOGNITION,
-          {
-            title: "FitChain Activity Permission",
-            message: "FitChain needs access to your activity to count steps.",
-            buttonNeutral: "Ask Me Later",
-            buttonNegative: "Cancel",
-            buttonPositive: "OK"
-          }
-        );
+        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACTIVITY_RECOGNITION, {
+          title: 'FitChain Activity Permission',
+          message: 'FitChain needs access to your activity to count steps.',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        });
         return granted === PermissionsAndroid.RESULTS.GRANTED;
       } catch (err) {
         console.warn(err);
@@ -81,7 +79,7 @@ export class StepCounterService {
 
   subscribe(callback: StepCounterCallback): () => void {
     this.subscribers.push(callback);
-    
+
     if (!this.isTracking) {
       this.startTracking();
     }
@@ -119,7 +117,7 @@ export class StepCounterService {
   }
 
   private notifySubscribers(data: StepData): void {
-    this.subscribers.forEach(callback => callback(data));
+    this.subscribers.forEach((callback) => callback(data));
   }
 }
 
@@ -172,15 +170,15 @@ export const useStepCounter = () => {
           ({ x, y, z }) => {
             // Calculate the magnitude of acceleration
             const magnitude = Math.sqrt(x * x + y * y + z * z);
-            
+
             // Detect a step when the acceleration crosses the threshold
             if (!isStep && magnitude > STEP_THRESHOLD && lastMagnitude <= STEP_THRESHOLD) {
               isStep = true;
-              setSteps(prevSteps => prevSteps + 1);
+              setSteps((prevSteps) => prevSteps + 1);
             } else if (isStep && magnitude <= STEP_THRESHOLD) {
               isStep = false;
             }
-            
+
             lastMagnitude = magnitude;
           },
           (error) => {
@@ -199,15 +197,11 @@ export const useStepCounter = () => {
         return true;
       } catch (error) {
         console.error('Error starting step tracking:', error);
-        Alert.alert(
-          'Error',
-          'Failed to start step tracking. Please try again.',
-          [{ text: 'OK' }]
-        );
+        Alert.alert('Error', 'Failed to start step tracking. Please try again.', [{ text: 'OK' }]);
         return false;
       }
     }
-    
+
     return false;
   };
 
@@ -224,7 +218,7 @@ export const useStepCounter = () => {
         return false;
       }
     }
-    
+
     return false;
   };
 
@@ -242,4 +236,4 @@ export const useStepCounter = () => {
     resetSteps,
     requestPermissions,
   };
-}; 
+};

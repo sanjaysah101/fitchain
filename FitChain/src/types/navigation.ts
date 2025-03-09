@@ -13,4 +13,4 @@ export type TabParamList = {
   StepCounter: undefined;
   Settings: undefined;
   About: undefined;
-}; 
+};

@@ -1,4 +1,4 @@
-import { Platform, Alert } from 'react-native';
+import { Alert, Platform } from 'react-native';
 
 // Mock implementation for when react-native-permissions is not available
 const mockPermissions = {
@@ -61,11 +61,9 @@ export const checkStepCounterPermissions = async () => {
   } catch (error) {
     console.error('Error checking permissions:', error);
     // In case of error, assume permission is granted to allow the app to function
-    Alert.alert(
-      'Permission Check Error',
-      'Unable to check permissions. Some features may not work correctly.',
-      [{ text: 'OK' }]
-    );
+    Alert.alert('Permission Check Error', 'Unable to check permissions. Some features may not work correctly.', [
+      { text: 'OK' },
+    ]);
     return true;
   }
 };
@@ -88,11 +86,9 @@ export const requestStepCounterPermissions = async () => {
   } catch (error) {
     console.error('Error requesting permissions:', error);
     // In case of error, assume permission is granted to allow the app to function
-    Alert.alert(
-      'Permission Request Error',
-      'Unable to request permissions. Some features may not work correctly.',
-      [{ text: 'OK' }]
-    );
+    Alert.alert('Permission Request Error', 'Unable to request permissions. Some features may not work correctly.', [
+      { text: 'OK' },
+    ]);
     return true;
   }
 };
@@ -139,4 +135,4 @@ export const requestLocationPermissions = async () => {
     // In case of error, assume permission is granted to allow the app to function
     return true;
   }
-}; 
+};

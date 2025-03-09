@@ -1,11 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Animated,
-  Easing,
-} from 'react-native';
+import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
 
 interface SplashScreenProps {
   onFinish: () => void;
@@ -93,4 +87,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SplashScreen; 
+export default SplashScreen;

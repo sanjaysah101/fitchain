@@ -1,5 +1,5 @@
 export const calculateDistance = (steps: number, strideLength: number = 0.762): number => {
-  return Number((steps * strideLength / 1000).toFixed(2)); // Distance in kilometers
+  return Number(((steps * strideLength) / 1000).toFixed(2)); // Distance in kilometers
 };
 
 export const calculateCalories = (
@@ -15,13 +15,13 @@ export const calculateCalories = (
   const weightInKg = weight;
 
   // Calories = MET × Weight (kg) × Duration (hours)
-  const calories = (met * weightInKg * (duration / 60));
-  
+  const calories = met * weightInKg * (duration / 60);
+
   return Number(calories.toFixed(2));
 };
 
 export const formatNumber = (num: number): string => {
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
 export const calculateGoalProgress = (current: number, goal: number): number => {
@@ -30,4 +30,4 @@ export const calculateGoalProgress = (current: number, goal: number): number => 
 
 export const calculatePace = (steps: number, timeInMinutes: number): number => {
   return timeInMinutes > 0 ? Math.round(steps / timeInMinutes) : 0;
-}; 
+};

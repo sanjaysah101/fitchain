@@ -1,14 +1,14 @@
+import { AppKit, AppKitButton } from '@reown/appkit-wagmi-react-native';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@walletconnect/react-native-compat';
-
-// Add BackHandler polyfill
+import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { WagmiProvider } from 'wagmi';
 
-import {WagmiProvider} from 'wagmi';
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
-import {AppKit, AppKitButton} from '@reown/appkit-wagmi-react-native';
-import {wagmiConfig} from './src/config/wagmi';
-import {Account} from './src/componenets/Account';
-import {FitnessRewards} from './src/componenets/FitnessRewards';
+import { Account } from './src/componenets/Account';
+import { FitnessRewards } from './src/componenets/FitnessRewards';
+import { wagmiConfig } from './src/config/wagmi';
+
 const queryClient = new QueryClient();
 
 export default function App() {
@@ -43,5 +43,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: 20,
     color: '#333',
-  }
+  },
 });

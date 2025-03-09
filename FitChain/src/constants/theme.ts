@@ -38,4 +38,4 @@ export const SHADOW = {
     shadowRadius: 3,
     elevation: 8,
   },
-}; 
+};

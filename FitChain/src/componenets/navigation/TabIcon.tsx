@@ -1,8 +1,9 @@
 import React, { memo, useCallback, useMemo } from 'react';
-import { View, StyleSheet, Animated, Platform } from 'react-native';
-import { LAYOUT, ANIMATION } from '../../constants/theme';
+import { Animated, Platform, StyleSheet, View } from 'react-native';
+
+import { ANIMATION, LAYOUT } from '../../constants/theme';
 import { TabIconProps } from '../../types/navigation';
-import { FootprintIcon, SettingsIcon, InfoIcon } from '../icons/TabIcons';
+import { FootprintIcon, InfoIcon, SettingsIcon } from '../icons/TabIcons';
 
 const { TAB_WIDTH } = LAYOUT;
 
@@ -27,7 +28,7 @@ const TabIcon: React.FC<TabIconProps> = memo(({ color, focused, icon, label }) =
     Animated.parallel(animations).start();
 
     return () => {
-      animations.forEach(anim => anim.stop());
+      animations.forEach((anim) => anim.stop());
     };
   }, [focused, scaleValue, opacity]);
 
@@ -46,17 +47,18 @@ const TabIcon: React.FC<TabIconProps> = memo(({ color, focused, icon, label }) =
     }
   }, [icon, color]);
 
-  const animatedStyle = useMemo(() => ({
-    transform: [{ scale: scaleValue }],
-    opacity,
-  }), [scaleValue, opacity]);
+  const animatedStyle = useMemo(
+    () => ({
+      transform: [{ scale: scaleValue }],
+      opacity,
+    }),
+    [scaleValue, opacity]
+  );
 
   return (
     <View style={[styles.tabItemContainer, { width: TAB_WIDTH }]}>
       <Animated.View style={[styles.iconWrapper, animatedStyle]}>
-        <View style={styles.iconContainer}>
-          {renderIcon()}
-        </View>
+        <View style={styles.iconContainer}>{renderIcon()}</View>
         <Animated.Text
           style={[
             styles.tabLabel,
@@ -102,4 +104,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TabIcon; 
+export default TabIcon;

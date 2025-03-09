@@ -40,7 +40,9 @@ export function FitnessRewards() {
 
   // Record steps to the contract
   const handleRecordSteps = async () => {
-    if (!address || steps <= lastRecordedSteps) return;
+    if (!address || steps <= lastRecordedSteps) {
+      return;
+    }
 
     const newSteps = steps - lastRecordedSteps;
     try {
@@ -55,7 +57,9 @@ export function FitnessRewards() {
 
   // Record manual steps
   const handleManualSteps = async () => {
-    if (!address || !manualSteps) return;
+    if (!address || !manualSteps) {
+      return;
+    }
 
     const stepsToRecord = parseInt(manualSteps, 10);
     if (isNaN(stepsToRecord) || stepsToRecord <= 0) {

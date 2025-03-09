@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
+
 import { StepCounterService } from '../services/StepCounterService';
 
 interface StepCounterState {
@@ -26,12 +27,12 @@ export const useStepCounter = () => {
       try {
         const service = new StepCounterService();
         await service.requestPermissions();
-        
-        setState(prev => ({ ...prev, isTracking: true }));
-        
+
+        setState((prev) => ({ ...prev, isTracking: true }));
+
         service.subscribe((data) => {
           if (mounted) {
-            setState(prev => ({
+            setState((prev) => ({
               ...prev,
               steps: data.steps,
               distance: data.distance,
@@ -41,7 +42,7 @@ export const useStepCounter = () => {
         });
       } catch (error) {
         if (mounted) {
-          setState(prev => ({
+          setState((prev) => ({
             ...prev,
             error: error instanceof Error ? error.message : 'Failed to start step counter',
           }));
@@ -58,4 +59,4 @@ export const useStepCounter = () => {
   }, []);
 
   return state;
-}; 
+};
