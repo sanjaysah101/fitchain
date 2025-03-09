@@ -18,8 +18,6 @@ export function useFitChain() {
     args: [address as Address],
   });
 
-  console.log('userStats', { userStats, isLoading, error, isError });
-
   return {
     data: {
       totalSteps: userStats?.[0],

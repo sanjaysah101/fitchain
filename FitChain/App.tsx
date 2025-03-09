@@ -1,5 +1,4 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { AppKit } from '@reown/appkit-wagmi-react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@walletconnect/react-native-compat';
 import React, { useCallback, useMemo, useState } from 'react';
@@ -9,12 +8,13 @@ import { WagmiProvider } from 'wagmi';
 import TabNavigator from './src/componenets/navigation/TabNavigator';
 import { wagmiConfig } from './src/config/wagmi';
 import { COLORS } from './src/constants/theme';
+import { ThemeProvider } from './src/providers/ThemeProvider';
 import SplashScreen from './src/screens/SplashScreen';
 
 const queryClient = new QueryClient();
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const isDarkMode = useColorScheme() === 'light';
   const [showSplash, setShowSplash] = useState(true);
 
   const backgroundStyle = useMemo(
@@ -36,16 +36,17 @@ function App(): React.JSX.Element {
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
-        <SafeAreaView style={[backgroundStyle, styles.container]}>
-          <StatusBar
-            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-            backgroundColor={backgroundStyle.backgroundColor}
-          />
-          <NavigationContainer>
-            <TabNavigator />
-          </NavigationContainer>
-          <AppKit />
-        </SafeAreaView>
+        <ThemeProvider>
+          <SafeAreaView style={[backgroundStyle, styles.container]}>
+            <StatusBar
+              barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+              backgroundColor={backgroundStyle.backgroundColor}
+            />
+            <NavigationContainer>
+              <TabNavigator />
+            </NavigationContainer>
+          </SafeAreaView>
+        </ThemeProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
@@ -54,17 +55,14 @@ function App(): React.JSX.Element {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
   },
   scrollContent: {
-    paddingBottom: 30,
+    padding: 20,
   },
   header: {
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: 'bold',
-    textAlign: 'center',
-    marginVertical: 20,
-    color: '#333',
+    marginBottom: 20,
   },
 });
 

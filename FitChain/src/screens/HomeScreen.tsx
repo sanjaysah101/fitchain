@@ -3,7 +3,6 @@ import { AppKitButton } from '@reown/appkit-wagmi-react-native';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { Account } from '../componenets/Account';
 import { Dashboard } from '../componenets/Dashboard';
 
 export const HomeScreen: React.FC = () => {
@@ -12,7 +11,6 @@ export const HomeScreen: React.FC = () => {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Text style={styles.header}>FitChain</Text>
         <AppKitButton />
-        <Account />
         <Dashboard />
       </ScrollView>
     </View>

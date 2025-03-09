@@ -1,22 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, StyleSheet, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useAccount } from 'wagmi';
 
 import { useFitChainRewards, useStepCounter } from '../hooks';
+import StepsStatus from './StepsStatus';
+import Button from './ui/Button';
 
 export function FitnessRewards() {
   const { address } = useAccount();
-  const {
-    unclaimedSteps,
-    potentialReward,
-    totalSteps: contractTotalSteps,
-    claimedSteps,
-    isLoading,
-    claimRewards,
-    refetchAll,
-    recordSteps,
-    contractBalance,
-  } = useFitChainRewards();
+  const { refetchAll, recordSteps } = useFitChainRewards();
 
   const { steps, isTracking, startTracking, stopTracking } = useStepCounter();
   const [lastRecordedSteps, setLastRecordedSteps] = useState(0);
@@ -108,14 +100,11 @@ export function FitnessRewards() {
         </View>
 
         <Text style={styles.stepCount}>{steps}</Text>
-
-        <TouchableOpacity
-          style={[styles.button, styles.primaryButton, steps <= lastRecordedSteps && styles.disabledButton]}
+        <Button
+          title={`Record ${steps - lastRecordedSteps} Steps`}
           onPress={handleRecordSteps}
           disabled={steps <= lastRecordedSteps}
-        >
-          <Text style={styles.buttonText}>Record {steps - lastRecordedSteps} Steps</Text>
-        </TouchableOpacity>
+        />
       </View>
 
       {/* Manual Step Entry Card */}
@@ -142,52 +131,7 @@ export function FitnessRewards() {
       </View>
 
       {/* Stats Card */}
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>Your Stats</Text>
-
-        <View style={styles.statsGrid}>
-          <View style={styles.statItem}>
-            <Text style={styles.statValue}>{contractTotalSteps}</Text>
-            <Text style={styles.statLabel}>Total Steps</Text>
-          </View>
-
-          <View style={styles.statItem}>
-            <Text style={styles.statValue}>{claimedSteps}</Text>
-            <Text style={styles.statLabel}>Claimed Steps</Text>
-          </View>
-
-          <View style={styles.statItem}>
-            <Text style={styles.statValue}>{unclaimedSteps}</Text>
-            <Text style={styles.statLabel}>Unclaimed Steps</Text>
-          </View>
-
-          <View style={styles.statItem}>
-            <Text style={styles.statValue}>{potentialReward}</Text>
-            <Text style={styles.statLabel}>ETN Reward</Text>
-          </View>
-        </View>
-      </View>
-
-      {/* Rewards Card */}
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>Claim Rewards</Text>
-
-        {parseFloat(contractBalance) < parseFloat(potentialReward) && (
-          <Text style={styles.warningText}>Contract has insufficient funds. Please contact the administrator.</Text>
-        )}
-
-        <TouchableOpacity
-          style={[styles.button, styles.accentButton, (isLoading || unclaimedSteps === 0) && styles.disabledButton]}
-          onPress={claimRewards}
-          disabled={isLoading || unclaimedSteps === 0}
-        >
-          {isLoading ? (
-            <ActivityIndicator color="#fff" />
-          ) : (
-            <Text style={styles.buttonText}>{unclaimedSteps === 0 ? 'No Rewards to Claim' : 'Claim Rewards'}</Text>
-          )}
-        </TouchableOpacity>
-      </View>
+      <StepsStatus />
     </View>
   );
 }
@@ -196,6 +140,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 16,
     backgroundColor: '#f5f5f5',
+    marginBottom: 80,
   },
   title: {
     fontSize: 28,

@@ -1,7 +1,24 @@
 import React, { useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
 
+import { useTheme } from '../providers/ThemeProvider';
 import { checkStepCounterPermissions, requestStepCounterPermissions } from '../utils/PermissionsHandler';
+
+export const ThemeToggle = () => {
+  const { theme, toggleTheme } = useTheme();
+
+  return (
+    <View style={themeToggleStyles.container}>
+      <Switch value={theme === 'dark'} onValueChange={toggleTheme} />
+    </View>
+  );
+};
+
+const themeToggleStyles = StyleSheet.create({
+  container: {
+    padding: 10,
+  },
+});
 
 const Settings: React.FC = () => {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);

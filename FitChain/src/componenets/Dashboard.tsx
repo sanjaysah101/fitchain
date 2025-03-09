@@ -1,14 +1,18 @@
 // components/Dashboard.js
 import React, { FC } from 'react';
-import { Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
 
 import { useFitChain } from '../hooks';
-import ClaimButton from './ClaimButton';
+import { useClaimReward } from '../hooks/useClaimReward';
+import { useCountdown } from '../hooks/useCountdown';
 import { NFTGallery } from './NFTGallery';
-import { ProgressBar } from './ProgressBar';
+import StepsStatus from './StepsStatus';
+import Card from './ui/Card';
 
 export const Dashboard: FC = () => {
   const { data, isLoading, error, isError } = useFitChain();
+  const { handleClaim, isPending } = useClaimReward();
+  const remainingTime = useCountdown(Number(data?.cooldown || 0));
 
   if (isLoading) {
     return <Text>Loading...</Text>;
@@ -17,33 +21,39 @@ export const Dashboard: FC = () => {
     return <Text>Error: {error?.message}</Text>;
   }
 
-  const { totalSteps, etnClaimed, nextMilestone, cooldown } = data;
-
-  console.log('totalSteps', totalSteps);
-  console.log('etnClaimed', etnClaimed);
-  console.log('nextMilestone', nextMilestone);
-  console.log('cooldown', cooldown);
+  const { nextMilestone } = data;
 
   const formatTime = (seconds: number) => {
     const h = Math.floor(seconds / 3600);
     const m = Math.floor((seconds % 3600) / 60);
-    return `${h}h ${m}m remaining`;
+    const s = seconds % 60;
+    return `${h}h ${m}m ${s}s remaining`;
   };
-
-  console.log('etnClaimed', etnClaimed);
-  console.log('nextMilestone', nextMilestone);
 
   return (
     <View>
-      <Text>Total Steps: {totalSteps}</Text>
-      <Text>ETN Earned: {etnClaimed}</Text>
-      <Text>Next Milestone: {nextMilestone} steps</Text>
-      <ProgressBar current={Number(etnClaimed)} next={Number(nextMilestone)} />
+      <Card>
+        <Text style={styles.bold}>
+          Next Milestone: <Text style={styles.value}>{nextMilestone} Steps</Text>
+        </Text>
+        <Text style={styles.bold}>
+          Next Claim Available:{' '}
+          <Text style={styles.value}>{remainingTime > 0 ? formatTime(remainingTime) : 'Ready to claim!'}</Text>
+        </Text>
+      </Card>
       <NFTGallery />
-      <Text>Next Claim Available: {cooldown ? formatTime(Number(cooldown)) : 'Ready to claim!'}</Text>
-
-      {/* <Button title="Claim Rewards" onPress={handleClaim} disabled={cooldown > 0} /> */}
-      <ClaimButton />
+      <StepsStatus />
+      {remainingTime <= 0 && <Button title="Claim Rewards" onPress={() => handleClaim(10)} disabled={isPending} />}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  bold: {
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  value: {
+    fontWeight: 'normal',
+  },
+});
