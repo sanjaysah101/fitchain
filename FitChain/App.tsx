@@ -1,29 +1,51 @@
-import { AppKit, AppKitButton } from '@reown/appkit-wagmi-react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { AppKit } from '@reown/appkit-wagmi-react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@walletconnect/react-native-compat';
-// Add BackHandler polyfill
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useCallback, useMemo, useState } from 'react';
+import { SafeAreaView, StatusBar, StyleSheet, useColorScheme } from 'react-native';
 import { WagmiProvider } from 'wagmi';
 
-import { Account } from './src/componenets/Account';
-import { FitnessRewards } from './src/componenets/FitnessRewards';
+import TabNavigator from './src/componenets/navigation/TabNavigator';
 import { wagmiConfig } from './src/config/wagmi';
+import { COLORS } from './src/constants/theme';
+import SplashScreen from './src/screens/SplashScreen';
 
 const queryClient = new QueryClient();
 
-export default function App() {
+function App(): React.JSX.Element {
+  const isDarkMode = useColorScheme() === 'dark';
+  const [showSplash, setShowSplash] = useState(true);
+
+  const backgroundStyle = useMemo(
+    () => ({
+      backgroundColor: isDarkMode ? COLORS.BACKGROUND_DARK : COLORS.BACKGROUND_LIGHT,
+      flex: 1,
+    }),
+    [isDarkMode]
+  );
+
+  const handleSplashFinish = useCallback(() => {
+    setShowSplash(false);
+  }, []);
+
+  if (showSplash) {
+    return <SplashScreen onFinish={handleSplashFinish} />;
+  }
+
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
-        <View style={styles.container}>
-          <ScrollView contentContainerStyle={styles.scrollContent}>
-            <Text style={styles.header}>FitChain</Text>
-            <AppKitButton />
-            <Account />
-            <FitnessRewards />
-          </ScrollView>
-        </View>
-        <AppKit />
+        <SafeAreaView style={[backgroundStyle, styles.container]}>
+          <StatusBar
+            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            backgroundColor={backgroundStyle.backgroundColor}
+          />
+          <NavigationContainer>
+            <TabNavigator />
+          </NavigationContainer>
+          <AppKit />
+        </SafeAreaView>
       </QueryClientProvider>
     </WagmiProvider>
   );
@@ -45,3 +67,5 @@ const styles = StyleSheet.create({
     color: '#333',
   },
 });
+
+export default App;
