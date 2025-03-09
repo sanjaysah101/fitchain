@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useMemo } from 'react';
-import { View, StyleSheet, Animated } from 'react-native';
+import { View, StyleSheet, Animated, Platform } from 'react-native';
 import { LAYOUT, ANIMATION } from '../../constants/theme';
 import { TabIconProps } from '../../types/navigation';
 import { FootprintIcon, SettingsIcon, InfoIcon } from '../icons/TabIcons';
@@ -33,6 +33,8 @@ const TabIcon: React.FC<TabIconProps> = memo(({ color, focused, icon, label }) =
 
   const renderIcon = useCallback(() => {
     switch (icon) {
+      case 'home':
+        return <FootprintIcon color={color} />;
       case 'footprint':
         return <FootprintIcon color={color} />;
       case 'settings':

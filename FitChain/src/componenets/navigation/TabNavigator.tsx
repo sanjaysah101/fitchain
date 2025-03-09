@@ -51,8 +51,8 @@ const TabNavigator = memo(() => {
             <TabIcon 
               color={color} 
               focused={focused} 
-              icon="footprint" 
-              label="Steps"
+              icon="home" 
+              label="Home"
             />
           ),
         }}

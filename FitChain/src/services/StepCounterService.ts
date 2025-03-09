@@ -1,5 +1,6 @@
 import { Platform, Alert, PermissionsAndroid } from 'react-native';
 import { checkStepCounterPermissions, requestStepCounterPermissions } from '../utils/PermissionsHandler';
+import { useEffect, useState } from 'react';
 
 // Mock implementation for when react-native-sensors is not available
 const mockAccelerometer = {

@@ -9,6 +9,7 @@ export interface TabIconProps extends IconProps {
 }
 
 export type TabParamList = {
+  Home: undefined;
   StepCounter: undefined;
   Settings: undefined;
   About: undefined;

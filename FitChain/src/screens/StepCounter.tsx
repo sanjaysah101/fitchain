@@ -8,6 +8,8 @@ import {
   Vibration,
 } from 'react-native';
 import { useStepCounter } from '../services/StepCounterService';
+import { FitnessRewards } from '../componenets/FitnessRewards';
+
 
 const StepCounter: React.FC = () => {
   const {
@@ -56,7 +58,7 @@ const StepCounter: React.FC = () => {
   
   // Calculate distance in kilometers (rough estimate based on average step length)
   const distanceKm = (steps * 0.76 / 1000).toFixed(2);
-
+/*
   return (
     <View style={styles.mainContainer}>
       <View style={styles.header}>
@@ -114,6 +116,12 @@ const StepCounter: React.FC = () => {
           )}
         </View>
       </View>
+    </View>
+  ); */
+
+  return (
+    <View>
+      <FitnessRewards />
     </View>
   );
 };

@@ -8,6 +8,15 @@ interface IconProps {
   color: string;
 }
 
+export const HomeIcon = memo(({ color }: IconProps) => (
+  <View style={styles.iconBase}>
+    <View style={[styles.houseBase, { borderColor: color }]}>
+      <View style={[styles.roof, { borderBottomColor: color }]} />
+      <View style={[styles.door, { backgroundColor: color }]} />
+    </View>
+  </View>
+));
+
 export const FootprintIcon = memo(({ color }: IconProps) => (
   <View style={styles.iconBase}>
     <View style={[styles.stepCircle, { borderColor: color }]}>
@@ -106,5 +115,30 @@ const styles = StyleSheet.create({
     width: 2,
     height: ICON_SIZE * 0.4,
     marginTop: ICON_SIZE * 0.1,
+  },
+  houseBase: {
+    width: 30,
+    height: 30,
+    borderWidth: 2,
+    borderRadius: 4,
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
+  roof: {
+    position: "absolute",
+    top: -15,
+    width: 0,
+    height: 0,
+    borderLeftWidth: 15,
+    borderRightWidth: 15,
+    borderBottomWidth: 15,
+    borderStyle: "solid",
+    borderLeftColor: "transparent",
+    borderRightColor: "transparent",
+  },
+  door: {
+    width: 10,
+    height: 15,
+    marginBottom: 2,
   },
 }); 
