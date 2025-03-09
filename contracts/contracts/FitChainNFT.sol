@@ -4,19 +4,16 @@ pragma solidity ^0.8.28;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 contract FitChainNFT is ERC721 {
-    uint256 public tokenIdCounter;
+    uint256 private _tokenIdCounter;
     address public owner;
 
-    event BadgeMinted(address indexed user, uint256 tokenId);
-
-    constructor() ERC721("FitChainBadges", "FIT") {
+    constructor() ERC721("FitChainMilestone", "FITNFT") {
         owner = msg.sender;
     }
 
-    function mintBadge(address user) external {
+    function mint(address to) external {
         require(msg.sender == owner, "Unauthorized");
-        _safeMint(user, tokenIdCounter);
-        emit BadgeMinted(user, tokenIdCounter);
-        tokenIdCounter++;
+        _tokenIdCounter++;
+        _safeMint(to, _tokenIdCounter);
     }
 }
