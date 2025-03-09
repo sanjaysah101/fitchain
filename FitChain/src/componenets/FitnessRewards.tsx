@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  ActivityIndicator,
+import { 
+  View, 
+  Text, 
+  TouchableOpacity, 
+  StyleSheet, 
+  ActivityIndicator, 
   Switch,
   TextInput,
   Alert,
@@ -26,18 +26,18 @@ export function FitnessRewards() {
     recordSteps,
     contractBalance,
   } = useFitChainRewards();
-
+  
   const { steps, isTracking, startTracking, stopTracking } = useStepCounter();
   const [lastRecordedSteps, setLastRecordedSteps] = useState(0);
   const [manualSteps, setManualSteps] = useState('');
-
+  
   // Refresh data when component mounts or address changes
   useEffect(() => {
     if (address) {
       refetchAll();
     }
   }, [address, refetchAll]);
-
+  
   // Handle step tracking toggle
   const toggleTracking = () => {
     if (isTracking) {
@@ -46,11 +46,11 @@ export function FitnessRewards() {
       startTracking();
     }
   };
-
+  
   // Record steps to the contract
   const handleRecordSteps = async () => {
-    if (!address || steps <= lastRecordedSteps) {return;}
-
+    if (!address || steps <= lastRecordedSteps) return;
+    
     const newSteps = steps - lastRecordedSteps;
     try {
       await recordSteps(newSteps);
@@ -61,17 +61,17 @@ export function FitnessRewards() {
       Alert.alert('Error', 'Failed to record steps. Please try again.');
     }
   };
-
+  
   // Record manual steps
   const handleManualSteps = async () => {
-    if (!address || !manualSteps) {return;}
-
+    if (!address || !manualSteps) return;
+    
     const stepsToRecord = parseInt(manualSteps, 10);
     if (isNaN(stepsToRecord) || stepsToRecord <= 0) {
       Alert.alert('Invalid Input', 'Please enter a valid number of steps.');
       return;
     }
-
+    
     try {
       await recordSteps(stepsToRecord);
       setManualSteps('');
@@ -98,7 +98,7 @@ export function FitnessRewards() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Fitness Rewards</Text>
-
+      
       {/* Step Counter Card */}
       <View style={styles.card}>
         <View style={styles.cardHeader}>
@@ -107,22 +107,22 @@ export function FitnessRewards() {
             <Text style={styles.trackingLabel}>
               {isTracking ? 'Tracking' : 'Not Tracking'}
             </Text>
-            <Switch
-              value={isTracking}
+            <Switch 
+              value={isTracking} 
               onValueChange={toggleTracking}
               trackColor={{ false: '#767577', true: '#81b0ff' }}
               thumbColor={isTracking ? '#4CAF50' : '#f4f3f4'}
             />
           </View>
         </View>
-
+        
         <Text style={styles.stepCount}>{steps}</Text>
-
+        
         <TouchableOpacity
           style={[
             styles.button,
             styles.primaryButton,
-            (steps <= lastRecordedSteps) && styles.disabledButton,
+            (steps <= lastRecordedSteps) && styles.disabledButton
           ]}
           onPress={handleRecordSteps}
           disabled={steps <= lastRecordedSteps}
@@ -132,14 +132,14 @@ export function FitnessRewards() {
           </Text>
         </TouchableOpacity>
       </View>
-
+      
       {/* Manual Step Entry Card */}
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Manual Step Entry</Text>
         <Text style={styles.cardSubtitle}>
           If step tracking isn't working, you can manually enter your steps
         </Text>
-
+        
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
@@ -152,7 +152,7 @@ export function FitnessRewards() {
             style={[
               styles.button,
               styles.secondaryButton,
-              (!manualSteps) && styles.disabledButton,
+              (!manualSteps) && styles.disabledButton
             ]}
             onPress={handleManualSteps}
             disabled={!manualSteps}
@@ -161,49 +161,49 @@ export function FitnessRewards() {
           </TouchableOpacity>
         </View>
       </View>
-
+      
       {/* Stats Card */}
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Your Stats</Text>
-
+        
         <View style={styles.statsGrid}>
           <View style={styles.statItem}>
             <Text style={styles.statValue}>{contractTotalSteps}</Text>
             <Text style={styles.statLabel}>Total Steps</Text>
           </View>
-
+          
           <View style={styles.statItem}>
             <Text style={styles.statValue}>{claimedSteps}</Text>
             <Text style={styles.statLabel}>Claimed Steps</Text>
           </View>
-
+          
           <View style={styles.statItem}>
             <Text style={styles.statValue}>{unclaimedSteps}</Text>
             <Text style={styles.statLabel}>Unclaimed Steps</Text>
           </View>
-
+          
           <View style={styles.statItem}>
             <Text style={styles.statValue}>{potentialReward}</Text>
             <Text style={styles.statLabel}>ETN Reward</Text>
           </View>
         </View>
       </View>
-
+      
       {/* Rewards Card */}
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Claim Rewards</Text>
-
+        
         {parseFloat(contractBalance) < parseFloat(potentialReward) && (
           <Text style={styles.warningText}>
             Contract has insufficient funds. Please contact the administrator.
           </Text>
         )}
-
+        
         <TouchableOpacity
           style={[
             styles.button,
             styles.accentButton,
-            (isLoading || unclaimedSteps === 0) && styles.disabledButton,
+            (isLoading || unclaimedSteps === 0) && styles.disabledButton
           ]}
           onPress={claimRewards}
           disabled={isLoading || unclaimedSteps === 0}
