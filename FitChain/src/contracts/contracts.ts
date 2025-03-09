@@ -3,7 +3,7 @@ export const FitChainRewardsABI = [
     inputs: [
       {
         internalType: 'address',
-        name: '_etnToken',
+        name: '_nftAddress',
         type: 'address',
       },
     ],
@@ -11,45 +11,13 @@ export const FitChainRewardsABI = [
     type: 'constructor',
   },
   {
-    anonymous: false,
     inputs: [
       {
-        indexed: true,
-        internalType: 'address',
-        name: 'user',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'amount',
-        type: 'uint256',
-      },
-    ],
-    name: 'RewardClaimed',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'user',
-        type: 'address',
-      },
-      {
-        indexed: false,
         internalType: 'uint256',
         name: 'steps',
         type: 'uint256',
       },
     ],
-    name: 'StepsRecorded',
-    type: 'event',
-  },
-  {
-    inputs: [],
     name: 'claimRewards',
     outputs: [],
     stateMutability: 'nonpayable',
@@ -57,39 +25,7 @@ export const FitChainRewardsABI = [
   },
   {
     inputs: [],
-    name: 'etnToken',
-    outputs: [
-      {
-        internalType: 'contract IERC20',
-        name: '',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'amount',
-        type: 'uint256',
-      },
-    ],
-    name: 'fundContract',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'user',
-        type: 'address',
-      },
-    ],
-    name: 'getPotentialReward',
+    name: 'cooldown',
     outputs: [
       {
         internalType: 'uint256',
@@ -103,17 +39,30 @@ export const FitChainRewardsABI = [
   {
     inputs: [
       {
-        internalType: 'address',
-        name: 'user',
-        type: 'address',
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
       },
     ],
-    name: 'getUnclaimedSteps',
+    name: 'milestones',
     outputs: [
       {
         internalType: 'uint256',
         name: '',
         type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'nft',
+    outputs: [
+      {
+        internalType: 'contract FitChainNFT',
+        name: '',
+        type: 'address',
       },
     ],
     stateMutability: 'view',
@@ -133,64 +82,8 @@ export const FitChainRewardsABI = [
     type: 'function',
   },
   {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'user',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256',
-        name: 'steps',
-        type: 'uint256',
-      },
-    ],
-    name: 'recordSteps',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-    ],
-    name: 'claimedSteps',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-    ],
-    name: 'userSteps',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
     inputs: [],
-    name: 'getContractBalance',
+    name: 'stepsPerETN',
     outputs: [
       {
         internalType: 'uint256',
@@ -200,6 +93,39 @@ export const FitChainRewardsABI = [
     ],
     stateMutability: 'view',
     type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    name: 'users',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: 'totalSteps',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'milestoneCount',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'lastClaim',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    stateMutability: 'payable',
+    type: 'receive',
   },
 ];
 
@@ -368,25 +294,6 @@ export const FitChainNFTABI = [
       {
         indexed: true,
         internalType: 'address',
-        name: 'user',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
-      },
-    ],
-    name: 'BadgeMinted',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
         name: 'from',
         type: 'address',
       },
@@ -490,11 +397,11 @@ export const FitChainNFTABI = [
     inputs: [
       {
         internalType: 'address',
-        name: 'user',
+        name: 'to',
         type: 'address',
       },
     ],
-    name: 'mintBadge',
+    name: 'mint',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
@@ -640,19 +547,6 @@ export const FitChainNFTABI = [
         internalType: 'string',
         name: '',
         type: 'string',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'tokenIdCounter',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
       },
     ],
     stateMutability: 'view',

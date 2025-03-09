@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { accelerometer } from 'react-native-sensors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Platform, PermissionsAndroid, Alert } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Alert, PermissionsAndroid, Platform } from 'react-native';
+import { accelerometer } from 'react-native-sensors';
 
 const STEP_THRESHOLD = 20; // Adjust based on testing
 const STEP_DELAY = 500; // Minimum time between steps in ms
@@ -18,17 +18,14 @@ export function useStepCounter() {
       try {
         // For Android 10+ (API level 29+)
         if (Platform.Version >= 29) {
-          const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACTIVITY_RECOGNITION,
-            {
-              title: 'Activity Recognition Permission',
-              message: 'FitChain needs access to your physical activity to count steps.',
-              buttonNeutral: 'Ask Me Later',
-              buttonNegative: 'Cancel',
-              buttonPositive: 'OK',
-            },
-          );
-          
+          const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACTIVITY_RECOGNITION, {
+            title: 'Activity Recognition Permission',
+            message: 'FitChain needs access to your physical activity to count steps.',
+            buttonNeutral: 'Ask Me Later',
+            buttonNegative: 'Cancel',
+            buttonPositive: 'OK',
+          });
+
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
             console.log('Activity Recognition permission granted');
             setHasPermission(true);
@@ -78,7 +75,7 @@ export function useStepCounter() {
         // Check if it's a new day
         const lastUpdate = await AsyncStorage.getItem('@FitChain:lastUpdate');
         const today = new Date().toDateString();
-        
+
         if (lastUpdate !== today) {
           // It's a new day, reset steps
           setSteps(0);
@@ -104,35 +101,37 @@ export function useStepCounter() {
   };
 
   const startTracking = async () => {
-    if (isTracking) return;
-    
+    if (isTracking) {
+      return;
+    }
+
     // Request permissions before starting
     const permissionGranted = await requestPermissions();
     if (!permissionGranted) {
       return;
     }
-    
+
     let lastStepTime = 0;
     let lastMagnitude = 0;
-    
+
     const subscription = accelerometer.subscribe(({ x, y, z }: { x: number; y: number; z: number }) => {
       const magnitude = Math.sqrt(x * x + y * y + z * z);
       const delta = Math.abs(magnitude - lastMagnitude);
-      
+
       const now = Date.now();
-      
+
       // Detect a step when there's a significant change in acceleration
       // and enough time has passed since the last step
       if (delta > STEP_THRESHOLD && now - lastStepTime > STEP_DELAY) {
-        setSteps(prevSteps => prevSteps + 1);
+        setSteps((prevSteps) => prevSteps + 1);
         lastStepTime = now;
       }
-      
+
       lastMagnitude = magnitude;
     });
-    
+
     setIsTracking(true);
-    
+
     return () => {
       subscription.unsubscribe();
       setIsTracking(false);
@@ -154,6 +153,6 @@ export function useStepCounter() {
     hasPermission,
     startTracking,
     stopTracking,
-    resetSteps
+    resetSteps,
   };
-} 
+}

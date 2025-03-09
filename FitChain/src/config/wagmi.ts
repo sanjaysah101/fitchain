@@ -1,9 +1,6 @@
-import {
-  createAppKit,
-  defaultWagmiConfig,
-} from '@reown/appkit-wagmi-react-native';
+import { createAppKit, defaultWagmiConfig } from '@reown/appkit-wagmi-react-native';
 // import {Chain} from 'viem';
-import {electroneumTestnet} from 'viem/chains';
+import { electroneumTestnet } from 'viem/chains';
 
 // 1. Get projectId at https://cloud.reown.com
 const projectId = '750274cb9985fe53c51f72d81e698b6f';
@@ -46,7 +43,7 @@ const metadata = {
 
 const chains = [electroneumTestnet] as const; // Remove other chains
 
-export const wagmiConfig = defaultWagmiConfig({chains, projectId, metadata});
+export const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata });
 
 // 3. Create modal
 createAppKit({

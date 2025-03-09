@@ -6,6 +6,7 @@ import "./FitChainNFT.sol";
 contract FitChainRewards {
     FitChainNFT public nft;
     address public owner;
+    string public displayName;
 
     uint256 public stepsPerETN = 1000;
     uint256[] public milestones = [5000, 15000, 30000];
@@ -22,6 +23,7 @@ contract FitChainRewards {
     constructor(address _nftAddress) {
         nft = FitChainNFT(_nftAddress);
         owner = msg.sender;
+        displayName = "FitChain Rewards";
     }
 
     function claimRewards(uint256 steps) external {
