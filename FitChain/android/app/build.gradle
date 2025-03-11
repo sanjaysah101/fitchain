@@ -94,7 +94,7 @@ android {
         }
          release {
             // if (project.hasProperty(project.MYAPP_RELEASE_STORE_FILE)) {
-                storeFile file('my-release-key.keystore')
+                storeFile file(project.MYAPP_RELEASE_STORE_FILE)
                 storePassword project.MYAPP_RELEASE_STORE_PASSWORD
                 keyAlias project.MYAPP_RELEASE_KEY_ALIAS
                 keyPassword project.MYAPP_RELEASE_KEY_PASSWORD

@@ -1,71 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, StyleSheet, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, Switch, Text, View } from 'react-native';
 import { useAccount } from 'wagmi';
 
 import { useFitChainRewards, useStepCounter } from '../hooks';
-import StepsStatus from './StepsStatus';
 import Button from './ui/Button';
 
 export function FitnessRewards() {
   const { address } = useAccount();
-  const { refetchAll, recordSteps } = useFitChainRewards();
-
+  const { totalSteps, etnClaimed, nextMilestone, cooldown, recordSteps, refetchAll } = useFitChainRewards();
   const { steps, isTracking, startTracking, stopTracking } = useStepCounter();
   const [lastRecordedSteps, setLastRecordedSteps] = useState(0);
   const [manualSteps, setManualSteps] = useState('');
 
-  // Refresh data when component mounts or address changes
   useEffect(() => {
-    if (address) {
-      refetchAll();
-    }
+    if (address) refetchAll();
   }, [address, refetchAll]);
 
-  // Handle step tracking toggle
-  const toggleTracking = () => {
-    if (isTracking) {
-      stopTracking();
-    } else {
-      startTracking();
-    }
-  };
-
-  // Record steps to the contract
-  const handleRecordSteps = async () => {
-    if (!address || steps <= lastRecordedSteps) {
-      return;
-    }
+  const handleClaimSteps = async () => {
+    if (!address || steps <= lastRecordedSteps) return;
 
     const newSteps = steps - lastRecordedSteps;
     try {
       await recordSteps(newSteps);
       setLastRecordedSteps(steps);
-      Alert.alert('Success', `Recorded ${newSteps} steps to the blockchain!`);
+      Alert.alert('Success', `Claimed rewards for ${newSteps} steps! Next milestone: ${nextMilestone} steps`);
     } catch (error) {
-      console.error('Failed to record steps:', error);
-      Alert.alert('Error', 'Failed to record steps. Please try again.');
-    }
-  };
-
-  // Record manual steps
-  const handleManualSteps = async () => {
-    if (!address || !manualSteps) {
-      return;
-    }
-
-    const stepsToRecord = parseInt(manualSteps, 10);
-    if (isNaN(stepsToRecord) || stepsToRecord <= 0) {
-      Alert.alert('Invalid Input', 'Please enter a valid number of steps.');
-      return;
-    }
-
-    try {
-      await recordSteps(stepsToRecord);
-      setManualSteps('');
-      Alert.alert('Success', `Recorded ${stepsToRecord} steps to the blockchain!`);
-    } catch (error) {
-      console.error('Failed to record manual steps:', error);
-      Alert.alert('Error', 'Failed to record steps. Please try again.');
+      Alert.alert('Error', 'Failed to claim rewards. Please try again.');
     }
   };
 
@@ -74,7 +34,7 @@ export function FitnessRewards() {
       <View style={styles.container}>
         <Text style={styles.title}>Fitness Rewards</Text>
         <View style={styles.connectPrompt}>
-          <Text style={styles.connectText}>Please connect your wallet to view and claim rewards</Text>
+          <Text style={styles.connectText}>Please connect your wallet to start earning rewards</Text>
         </View>
       </View>
     );
@@ -84,54 +44,32 @@ export function FitnessRewards() {
     <View style={styles.container}>
       <Text style={styles.title}>Fitness Rewards</Text>
 
-      {/* Step Counter Card */}
-      <View style={styles.card}>
-        <View style={styles.cardHeader}>
-          <Text style={styles.cardTitle}>Step Counter</Text>
-          <View style={styles.trackingControl}>
-            <Text style={styles.trackingLabel}>{isTracking ? 'Tracking' : 'Not Tracking'}</Text>
-            <Switch
-              value={isTracking}
-              onValueChange={toggleTracking}
-              trackColor={{ false: '#767577', true: '#81b0ff' }}
-              thumbColor={isTracking ? '#4CAF50' : '#f4f3f4'}
-            />
-          </View>
+      <View style={styles.statsGrid}>
+        <View style={styles.statItem}>
+          <Text style={styles.statValue}>{totalSteps}</Text>
+          <Text style={styles.statLabel}>Total Steps</Text>
         </View>
+        <View style={styles.statItem}>
+          <Text style={styles.statValue}>{etnClaimed} ETN</Text>
+          <Text style={styles.statLabel}>Rewards Earned</Text>
+        </View>
+      </View>
 
+      <View style={styles.card}>
+        <Text style={styles.cardTitle}>Step Tracking</Text>
+        <Switch
+          value={isTracking}
+          onValueChange={isTracking ? stopTracking : startTracking}
+          trackColor={{ false: '#767577', true: '#81b0ff' }}
+          thumbColor={isTracking ? '#4CAF50' : '#f4f3f4'}
+        />
         <Text style={styles.stepCount}>{steps}</Text>
         <Button
           title={`Record ${steps - lastRecordedSteps} Steps`}
-          onPress={handleRecordSteps}
-          disabled={steps <= lastRecordedSteps}
+          onPress={handleClaimSteps}
+          disabled={steps <= lastRecordedSteps || cooldown > 0}
         />
       </View>
-
-      {/* Manual Step Entry Card */}
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>Manual Step Entry</Text>
-        <Text style={styles.cardSubtitle}>If step tracking isn't working, you can manually enter your steps</Text>
-
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter steps"
-            value={manualSteps}
-            onChangeText={setManualSteps}
-            keyboardType="numeric"
-          />
-          <TouchableOpacity
-            style={[styles.button, styles.secondaryButton, !manualSteps && styles.disabledButton]}
-            onPress={handleManualSteps}
-            disabled={!manualSteps}
-          >
-            <Text style={styles.buttonText}>Submit</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      {/* Stats Card */}
-      <StepsStatus />
     </View>
   );
 }

@@ -1,6 +1,5 @@
 import { createAppKit, defaultWagmiConfig } from '@reown/appkit-wagmi-react-native';
 import { Chain } from 'viem';
-import { electroneumTestnet } from 'viem/chains';
 
 // 1. Get projectId at https://cloud.reown.com
 const projectId = '750274cb9985fe53c51f72d81e698b6f';
@@ -49,7 +48,7 @@ export const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata });
 createAppKit({
   projectId,
   wagmiConfig,
-  defaultChain: electroneumTestnet, // Optional
+  defaultChain: electroneumChain, // Optional
   enableAnalytics: true, // Optional - defaults to your Cloud configuration
-  themeMode: 'dark',
+  // themeMode: 'dark',
 });

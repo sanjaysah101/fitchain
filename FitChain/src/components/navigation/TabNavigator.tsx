@@ -1,19 +1,17 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React, { memo, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Platform } from 'react-native';
 
 import { COLORS, LAYOUT, SHADOW } from '../../constants/theme';
-import AboutScreen from '../../screens/AboutScreen';
-import { HomeScreen } from '../../screens/HomeScreen';
-import Settings from '../../screens/Settings';
+import { AboutScreen, HomeScreen, Settings } from '../../screens';
 // Import screens
-import StepCounter from '../../screens/StepCounter';
+import { StepCounter } from '../../screens/StepCounter';
 import { TabParamList } from '../../types/navigation';
 import TabIcon from './TabIcon';
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
-const TabNavigator = memo(() => {
+const TabNavigator = () => {
   const tabBarStyle = useMemo(
     () => ({
       backgroundColor: COLORS.WHITE,
@@ -81,6 +79,6 @@ const TabNavigator = memo(() => {
       />
     </Tab.Navigator>
   );
-});
+};
 
 export default TabNavigator;
