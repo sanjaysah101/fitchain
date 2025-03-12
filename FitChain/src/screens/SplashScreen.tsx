@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
 
 interface SplashScreenProps {
   onFinish: () => void;
 }
 
-const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
-  const scaleValue = new Animated.Value(0);
-  const opacityValue = new Animated.Value(0);
+export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
+  const scaleValue = useMemo(() => new Animated.Value(0), []);
+  const opacityValue = useMemo(() => new Animated.Value(0), []);
 
   useEffect(() => {
     // Animation sequence
@@ -86,5 +86,3 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.8)',
   },
 });
-
-export default SplashScreen;

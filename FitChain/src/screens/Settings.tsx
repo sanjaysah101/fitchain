@@ -20,7 +20,7 @@ const themeToggleStyles = StyleSheet.create({
   },
 });
 
-const Settings: React.FC = () => {
+export const Settings: React.FC = () => {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [darkModeEnabled, setDarkModeEnabled] = useState(false);
   const [backgroundTrackingEnabled, setBackgroundTrackingEnabled] = useState(true);
@@ -225,5 +225,3 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
 });
-
-export default Settings;

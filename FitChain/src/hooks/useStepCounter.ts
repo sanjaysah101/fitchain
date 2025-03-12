@@ -27,11 +27,9 @@ export function useStepCounter() {
           });
 
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            console.log('Activity Recognition permission granted');
             setHasPermission(true);
             return true;
           } else {
-            console.log('Activity Recognition permission denied');
             Alert.alert(
               'Permission Required',
               'Step counting requires activity recognition permission. Please enable it in app settings.',
@@ -45,7 +43,7 @@ export function useStepCounter() {
           return true;
         }
       } catch (err) {
-        console.warn(err);
+        Alert.alert((err as Error).name, (err as Error).message, [{ text: 'OK' }]);
         return false;
       }
     } else {
@@ -88,7 +86,7 @@ export function useStepCounter() {
         await AsyncStorage.setItem('@FitChain:lastUpdate', new Date().toDateString());
       }
     } catch (error) {
-      console.error('Failed to load steps:', error);
+      Alert.alert('Failed to load steps', `Something went wrong. ${(error as Error).message}`, [{ text: 'OK' }]);
     }
   };
 
@@ -96,7 +94,7 @@ export function useStepCounter() {
     try {
       await AsyncStorage.setItem(STORAGE_KEY, newSteps.toString());
     } catch (error) {
-      console.error('Failed to save steps:', error);
+      Alert.alert('Failed to save steps', `something went wrong: ${(error as Error).message}`, [{ text: 'OK' }]);
     }
   };
 
