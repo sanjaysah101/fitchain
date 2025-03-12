@@ -5,6 +5,7 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 import { useFitChain } from '../hooks';
 import { useClaimReward } from '../hooks/useClaimReward';
 import { useCountdown } from '../hooks/useCountdown';
+import { ContractStatus, FundContractButton } from './FundContractButton';
 import { NFTGallery } from './NFTGallery';
 import StepsStatus from './StepsStatus';
 import Card from './ui/Card';
@@ -21,7 +22,7 @@ export const Dashboard: FC = () => {
     return <Text>Error: {error?.message}</Text>;
   }
 
-  const { nextMilestone } = data;
+  const { nextMilestone, cooldown, etnClaimed, totalSteps } = data;
 
   const formatTime = (seconds: number) => {
     const h = Math.floor(seconds / 3600);
@@ -31,8 +32,12 @@ export const Dashboard: FC = () => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Card>
+        <Text>nextMilestone: {nextMilestone}</Text>
+        <Text>cooldown: {cooldown}</Text>
+        <Text>etnClaimed: {etnClaimed}</Text>
+        <Text>totalSteps: {totalSteps}</Text>
         <Text style={styles.bold}>
           Next Milestone: <Text style={styles.value}>{nextMilestone} Steps</Text>
         </Text>
@@ -42,6 +47,8 @@ export const Dashboard: FC = () => {
         </Text>
       </Card>
       <NFTGallery />
+      <ContractStatus />
+      <FundContractButton />
       <StepsStatus />
       {remainingTime <= 0 && <Button title="Claim Rewards" onPress={() => handleClaim(10)} disabled={isPending} />}
     </View>
@@ -49,6 +56,10 @@ export const Dashboard: FC = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+  },
   bold: {
     fontWeight: 'bold',
     marginBottom: 8,

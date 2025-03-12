@@ -18,6 +18,8 @@ contract FitChainRewards {
     uint256 public totalETNDistributed;
     mapping(address => uint256) public userETNClaimed;
 
+    event ContractFunded(address sender, uint256 amount);
+
     struct User {
         uint256 totalSteps;
         uint256 milestoneCount;
@@ -30,6 +32,15 @@ contract FitChainRewards {
         displayName = "FitChain Rewards";
     }
 
+    function fundContract() external payable {
+        require(msg.value > 0, "Must send at least 1 ETN");
+        emit ContractFunded(msg.sender, msg.value);
+    }
+
+    function getContractBalance() external view returns (uint256) {
+        return address(this).balance;
+    }
+
     function claimRewards(uint256 steps) external {
         User storage user = users[msg.sender];
 
@@ -40,9 +51,15 @@ contract FitChainRewards {
 
         user.totalSteps += steps;
         user.lastClaim = block.timestamp;
-`
+
         // Send ETN rewards (1 ETN = 1e18 wei)
         uint256 etnAmount = (steps / stepsPerETN) * 1e18;
+
+        require(
+            address(this).balance >= etnAmount,
+            "Insufficient contract funds"
+        );
+
         payable(msg.sender).transfer(etnAmount);
 
         // Track rewards
@@ -84,5 +101,18 @@ contract FitChainRewards {
         );
     }
 
-    receive() external payable {} // Allow contract to hold ETN
+    // Withdraw Function (Owner Only)
+    function withdrawFunds(uint256 amount) external onlyOwner {
+        require(amount <= address(this).balance, "Overbalance");
+        payable(owner).transfer(amount);
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not owner");
+        _;
+    }
+
+    receive() external payable {
+        emit ContractFunded(msg.sender, msg.value);
+    } // Allow contract to hold ETN
 }
