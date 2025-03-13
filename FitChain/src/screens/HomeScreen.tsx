@@ -24,7 +24,8 @@ export const HomeScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    marginVertical: 80,
+    marginHorizontal: 16,
   },
   scrollContent: {
     paddingBottom: 30,

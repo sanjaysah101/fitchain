@@ -4,21 +4,14 @@ import { Address } from 'viem';
 import { useAccount, useReadContract } from 'wagmi';
 
 import { NFT_CONTRACT } from '../constants';
+import { FitChainNFTABI } from '../contracts/contracts';
 
 export const NFTGallery: FC = () => {
   const { address } = useAccount();
 
   const { data: balance } = useReadContract({
     address: NFT_CONTRACT,
-    abi: [
-      {
-        name: 'balanceOf',
-        type: 'function',
-        inputs: [{ name: 'owner', type: 'address' }],
-        outputs: [{ type: 'uint256' }],
-        stateMutability: 'view',
-      },
-    ],
+    abi: FitChainNFTABI,
     functionName: 'balanceOf',
     args: [address as Address],
   });
